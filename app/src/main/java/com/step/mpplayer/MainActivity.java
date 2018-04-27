@@ -1,14 +1,19 @@
 package com.step.mpplayer;
 
+import android.Manifest;
 import android.content.ComponentName;
 import android.content.ContentResolver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.ServiceConnection;
+import android.content.pm.PackageManager;
 import android.database.Cursor;
 import android.net.Uri;
 import android.os.IBinder;
 import android.provider.MediaStore;
+import android.support.annotation.NonNull;
+import android.support.v4.app.ActivityCompat;
+import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
@@ -40,7 +45,13 @@ public class MainActivity extends AppCompatActivity implements MediaController.M
     Button nextBtn;
     Button prevBtn;
 
+    private static final int REQUEST_P = 717;
+
     void loadSongs(){
+        if(ContextCompat.checkSelfPermission(this, Manifest.permission.READ_EXTERNAL_STORAGE)!= PackageManager.PERMISSION_GRANTED){
+            ActivityCompat.requestPermissions(this,new String[]{Manifest.permission.READ_EXTERNAL_STORAGE},REQUEST_P);
+            return;
+        }
         ContentResolver resolver = getContentResolver();
         Uri uri = MediaStore.Audio.Media.EXTERNAL_CONTENT_URI;
         Cursor cursor = resolver.query(uri,null,null,null,null);
@@ -55,6 +66,19 @@ public class MainActivity extends AppCompatActivity implements MediaController.M
         }while (cursor.moveToNext());
         cursor.close();
     }
+
+    @Override
+    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
+        if(requestCode==REQUEST_P){
+            if (grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+                loadSongs();
+            }else{
+                Toast.makeText(this,"Sorry, but bermission dinie(",Toast.LENGTH_LONG).show();
+            }
+        }
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+    }
+
     void initRecyclerSongView(){
         mSongsView = findViewById(R.id.song_list);
         mSongsAdapter = new SongsAdapter();
