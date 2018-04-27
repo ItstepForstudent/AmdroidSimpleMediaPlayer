@@ -114,6 +114,32 @@ public class SongsServices extends Service implements MediaPlayer.OnCompletionLi
         return false;
     }
 
+
+
+    protected Notification.Builder getNotificationBuilder(PendingIntent intent) {
+
+        String CHANNEL_ID = "my_id_01";// The internal id of the channel.
+        String CHANNEL_NAME = "Channel Name";// The public name of the channel.
+        Notification.Builder builder;
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+
+            /* Create or update. */
+            NotificationChannel channel = new NotificationChannel(CHANNEL_ID,
+                    CHANNEL_NAME,
+                    NotificationManager.IMPORTANCE_DEFAULT);
+
+            final NotificationManager notificationManager = (NotificationManager) this.getSystemService(this.NOTIFICATION_SERVICE);
+            notificationManager.createNotificationChannel(channel);
+            builder= new Notification.Builder(this,CHANNEL_ID);
+
+        }
+        else builder= new Notification.Builder(this);
+        return builder.setContentIntent(intent)
+                .setSmallIcon(R.mipmap.ic_launcher)
+                .setTicker(playlist.get(current).getName())
+                .setOngoing(true);
+    }
+
     @Override
     public void onPrepared(MediaPlayer mp) {
         mediaPlayer.start();
@@ -125,15 +151,15 @@ public class SongsServices extends Service implements MediaPlayer.OnCompletionLi
 
 
         Notification.Builder builder;
-            builder=new Notification.Builder(this);
+            builder=getNotificationBuilder(pIntent);
 
-        builder.setContentIntent(pIntent)
-                .setSmallIcon(R.mipmap.ic_launcher)
-                .setTicker(playlist.get(current).getName())
-                .setOngoing(true)
-                .setContentTitle("MPlayer playback:")
-                .setContentText(playlist.get(current).getName());
-        Notification notification = builder.build();
+        builder.setContentTitle("MPlayer playback:").setContentText(playlist.get(current).getName());
+
+        Notification notification =
+                getNotificationBuilder(pIntent)
+                        .setContentTitle("MPlayer playback:")
+                        .setContentText(playlist.get(current).getName())
+                        .build();
         startForeground(321456,notification);
     }
 
