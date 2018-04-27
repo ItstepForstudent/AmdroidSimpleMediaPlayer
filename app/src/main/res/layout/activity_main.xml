@@ -5,7 +5,9 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    tools:context="com.step.mpplayer.MainActivity">
+    tools:context="com.step.mpplayer.MainActivity"
+    android:background="@color/colorPrimaryDark"
+    >
 
 
     <android.support.v7.widget.RecyclerView
@@ -18,7 +20,7 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="50dp"
-        android:background="#777"
+        android:background="@color/colorPrimaryDark"
         >
         <TextView
             android:id="@+id/song_playing"
@@ -29,32 +31,44 @@
             android:layout_gravity="center"
             android:layout_weight="1"
             />
-        <Button
+        <ImageButton
             android:id="@+id/song_prev"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="prev"
+            android:src="@drawable/ic_action_name"
             android:layout_gravity="center"
+            android:background="@drawable/buttonshape"
+            android:padding="5dp"
+            android:layout_margin="5dp"
+            android:textColor="#fff"
             />
-        <Button
+        <ImageButton
             android:id="@+id/song_next"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="next"
-            android:layout_gravity="center"
+            android:src="@drawable/ic_action_next"
+            android:padding="5dp"
+            android:background="@drawable/buttonshape"
+            android:layout_margin="5dp"
+            android:textColor="#fff"
             />
-        <Button
+        <ImageButton
             android:id="@+id/song_stop"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="stop"
             android:layout_gravity="center"
+            android:background="@drawable/buttonshape"
+            android:layout_margin="5dp"
+            android:textColor="#fff"
+            android:src="@drawable/ic_action_stop"
+            android:padding="5dp"
             />
     </LinearLayout>
     <SeekBar
         android:id="@+id/play_progress"
         android:layout_width="match_parent"
         android:layout_height="40dp"
-        android:background="#777"
+        android:background="@color/colorPrimaryDark"
         />
 </LinearLayout>

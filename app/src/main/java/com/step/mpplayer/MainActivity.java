@@ -20,6 +20,7 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.widget.Button;
+import android.widget.ImageButton;
 import android.widget.MediaController;
 import android.widget.SeekBar;
 import android.widget.TextView;
@@ -37,13 +38,13 @@ public class MainActivity extends AppCompatActivity implements MediaController.M
     List<Song> songList = new ArrayList<>();
     RecyclerView mSongsView;
     SongsAdapter mSongsAdapter;
-    Button mStopButton;
+    ImageButton mStopButton;
     TextView mPlayingTextView;
     SongsServices songsServices;
     boolean songServicesBuinded = false;
     SeekBar songProgressBar;
-    Button nextBtn;
-    Button prevBtn;
+    ImageButton nextBtn;
+    ImageButton prevBtn;
 
     private static final int REQUEST_P = 717;
 
@@ -90,7 +91,6 @@ public class MainActivity extends AppCompatActivity implements MediaController.M
         mSongsAdapter.setOnClickListener(s->{
             songsServices.setSong(s);
             songsServices.startPlaying();
-            //Toast.makeText(this,s.getName(),Toast.LENGTH_LONG).show();
         });
     }
     void initPlayerControls(){
@@ -130,9 +130,8 @@ public class MainActivity extends AppCompatActivity implements MediaController.M
     {
         onProgressPlay=() -> {
             songProgressBar.setProgress(getCurrentPosition());
-            if (isPlaying()) {
+            if (isPlaying())
                 songProgressBar.postDelayed(onProgressPlay, 250);
-            }
         };
     }
 
@@ -163,6 +162,9 @@ public class MainActivity extends AppCompatActivity implements MediaController.M
                     mSongsAdapter.resetCurrent();
                 }
             });
+
+            if(isPlaying()) onStartPlayback(songList.get(songsServices.getCurrent()));
+
 
         }
 

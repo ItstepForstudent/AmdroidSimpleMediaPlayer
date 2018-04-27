@@ -16,6 +16,7 @@ import android.os.Build;
 import android.os.IBinder;
 import android.os.PowerManager;
 import android.provider.MediaStore;
+import android.support.v4.content.ContextCompat;
 
 import com.step.mpplayer.entities.Song;
 
@@ -124,13 +125,10 @@ public class SongsServices extends Service implements MediaPlayer.OnCompletionLi
 
 
         Notification.Builder builder;
-        if(Build.VERSION.SDK_INT>=Build.VERSION_CODES.O)
-            builder = new Notification.Builder(this,"trulalala");
-        else
             builder=new Notification.Builder(this);
 
         builder.setContentIntent(pIntent)
-                .setSmallIcon(R.drawable.ic_launcher_foreground)
+                .setSmallIcon(R.mipmap.ic_launcher)
                 .setTicker(playlist.get(current).getName())
                 .setOngoing(true)
                 .setContentTitle("MPlayer playback:")

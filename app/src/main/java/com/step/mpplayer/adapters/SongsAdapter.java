@@ -1,5 +1,8 @@
 package com.step.mpplayer.adapters;
 
+import android.content.res.Resources;
+import android.support.v4.content.ContextCompat;
+import android.support.v4.content.res.ResourcesCompat;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -75,7 +78,7 @@ public class SongsAdapter extends RecyclerView.Adapter<SongsAdapter.ViewHolder>{
             });
             mNameText.setText(s.getName());
             mArtistText.setText(s.getArtist());
-            itemView.setBackgroundColor(cur?0xFF336699:0xFF339966);
+            itemView.setBackgroundColor(ContextCompat.getColor(itemView.getContext(),cur? R.color.colorActiveSong:R.color.colorPrimary));
         }
 
     }
